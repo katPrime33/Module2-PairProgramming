@@ -32,7 +32,21 @@ public class JdbcSiteDao implements SiteDao {
 
     public List<Site> getAvailableSites(int parkId){
         List<Site> sites = new ArrayList<>();
-        String sql = "SELECT "
+        String sql = "SELECT site.site_id, site.campground_id, site_number, max_occupancy, accessible, max_rv_length, utilities " +
+                "FROM reservation " +
+                "JOIN site ON site.site_id = reservation.site_id " +
+                "JOIN campground ON site.campground_id = campground.campground_id " +
+                "WHERE from_date BETWEEN CURRENT_DATE AND CURRENT_DATE + 30 AND park_id = ? ;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, parkId);
+//        for (Site site : sites) {
+//            if (results)
+//        }
+
+        while (results.next()) {
+            sites.add(mapRowToSite(results));
+        }
+        return sites;
     }
 
     private Site mapRowToSite(SqlRowSet results) {

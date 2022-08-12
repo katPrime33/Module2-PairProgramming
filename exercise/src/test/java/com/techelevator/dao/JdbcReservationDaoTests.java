@@ -12,9 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 public class JdbcReservationDaoTests extends BaseDaoTests {
 
-    private static final Reservation RESERVATION_1 = new Reservation();
     private JdbcReservationDao dao;
-//    private Reservation reservation;
 
     @Before
     public void setup() {
